@@ -25,5 +25,12 @@ jobs:
     - name: Run Tests
       run: npm test -- --coverage
 
+    - name: Deploy to GitHub Pages
+  run: npm run deploy
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      
+
     - name: Build Application
       run: npm run build
