@@ -1,13 +1,10 @@
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - main
-
   pull_request:
-    branches:
-      - main
+    branches: [main]
+  push:
+    branches: [main]
 
 permissions:
   contents: write
@@ -23,20 +20,27 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: npm
 
       - name: Instalar dependências
         run: npm ci
 
       - name: Executar testes
-        run: npm test -- --watchAll=false
+        run: npm test -- --watchAll=false --coverage
 
-      - name: Gerar build
+      - name: Gerar build de produção
         run: npm run build
+
+      - name: Preparar autenticação do GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publicar no GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

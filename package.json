@@ -1,14 +1,32 @@
 {
-  "scripts": {
-    "test": "...",
-    "build": "..."
+  "name": "atividade-pipelines-ci-cd",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-scripts": "5.0.1"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
   },
-  "dependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "react-scripts": "^5.0.1"
-  }
+  "scripts": {
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "build": "react-scripts build",
+    "deploy": "gh-pages -d build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 edge version"
+    ]
+  },
+  "homepage": "."
 }
